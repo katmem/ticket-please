@@ -1,0 +1,7 @@
+{% load static %}
+
+<h1> Welcome to the movies homepage </h1>
+
+{% for movie in current_movies.all %}
+	<p>{{movie.name}}</p>
+{% endfor %}

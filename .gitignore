@@ -1,0 +1,9 @@
+.env
+.vscode
+bin
+lib
+pyvenv.cfg
+accounts/__pycache__/
+cart/__pycache__/
+movies/__pycache__/
+ticket-please/__pycache__/

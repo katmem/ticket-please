@@ -1,0 +1,314 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Movies</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+	<!-- Link Swiper's CSS -->
+	<link rel="stylesheet" href="{% static 'ticket-please/css/swiper.min.css' %}">
+	<link rel="stylesheet" href="{% static 'ticket-please/css/styles.css' %}">
+
+	<script src="{% static 'ticket-please/js/jquery-3.1.1.min.js' %}"></script>
+	<script src="{% static 'ticket-please/js/script.js' %}"></script>
+
+	<link href="{% static 'accounts/css/register.css' %}" rel="stylesheet" type="text/css" media="all" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- Demo styles -->
+<style>
+	.asteriskField {
+    display: none;
+}
+
+.topnav {
+  background-color: #333;
+  overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.topnav-right {
+  float: right;
+
+</style>
+
+</head>
+
+<body>
+	<div class="wrapper">
+
+		<div class="topnav">
+			<a class="active" href="{% url 'home' %}">Home</a>
+
+			<a href="{% url 'cart:choose-movie' %}">Book movie ticket</a>
+
+			<a href="{% url 'movies:program' %}">Movie Program</a>
+
+			<div class="topnav-right">
+		    	{% if request.user.is_authenticated %}
+					<a style="color:red">Hello, {{request.user.username}}</a>
+					<a href="{% url 'accounts:logout' %}">Logout</a>
+					<a href="{% url 'accounts:change-password' %}">Change Password</a>
+					<a href="{% url 'accounts:update-profile' %}">Update Profile</a>
+					<a href="{% url 'accounts:my-orders' %}">My Orders</a>
+				{% else %}
+					<a href = "{% url 'accounts:login' %}">Login</a>
+					<a href = "{% url 'accounts:register' %}">Register</a>
+				{% endif %}
+		  	</div>
+		
+		</div>
+		
+		<div stye="margin-top: 100px;" class="container">
+			<div class="col-xs-12">
+				{% if messages %}
+					<ul class="messages">
+						{% for message in messages %}
+						<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+		    </div>
+		</div>
+
+		<div  class="main-w3layouts wrapper">
+
+			<!-- Swiper -->
+			<div class="homeslider">
+				<div class="swiper-container">
+
+					<div class="swiper-wrapper">
+						<div class="swiper-slide">
+							<img src="{% static 'ticket-please/images/slider/ticket-please.jpg' %}">
+						</div>
+						<div class="swiper-slide">
+							<img src="{% static 'ticket-please/images/slider/ticket-please2.jpg' %}">
+						</div>
+					</div>
+					<!-- Add Pagination -->
+					<div class="swiper-pagination"></div>
+				</div>
+			</div>
+		
+			<main class="content">
+				<section class="panel">
+					<h2>Playing this week</h2>
+					<div class="recentslider">
+						<div class="swiper-container">
+							<div class="swiper-wrapper">
+								{% for movie in current_movies.all %}
+									<!-- {{movie.name}} -->
+									<div class="swiper-slide"><a href="{% url 'movies:single' movie.id %}"><img src="{{movie.image.url}}"><h3 class="hometitle">{{movie.name}}</h3></a></div>
+									
+								{% endfor %}
+								
+								<!-- <div class="swiper-slide"><a href="single.html"><img src="images/8.jpg"><h3 class="hometitle">xXx: Return of Xander Cage</h3></a></div>
+
+								<div class="swiper-slide"><a href="mostwatched.html"><img src="{% static 'ticket-please/img/others.png' %}"></a></div> --> 
+							</div>
+							<div class="nextdirection recent-next"><img src="{% static 'ticket-please/img/right-arrow.svg' %}"> </div>
+							<div class="leftdirection recent-prev"><img src="{% static 'ticket-please/img/left-arrow.svg' %}"> </div>
+						</div>
+					</div>
+				</section>
+
+				<section class="panel">
+					<h2>Playing from next week</h2>
+					<div class="recentslider">
+						<div class="swiper-container">
+							<div class="swiper-wrapper">
+								{% if coming_movies %}
+									{% for movie in coming_movies.all %}
+										<!-- {{movie.name}} -->
+										<div class="swiper-slide"><a href="{% url 'movies:single' movie.id %}"><img src="{{movie.image.url}}"><h3 class="hometitle">{{movie.name}}</h3></a></div>
+										
+									{% endfor %}
+								{% else %}
+									<h3>No upcoming movies yet</h3>
+								{% endif %}
+								
+							</div>
+							<div class="nextdirection recent-next"><img src="{% static 'ticket-please/img/right-arrow.svg' %}"> </div>
+							<div class="leftdirection recent-prev"><img src="{% static 'ticket-please/img/left-arrow.svg' %}"> </div>
+						</div>
+					</div>
+				</section>
+			</main>
+
+			<footer class="footer">
+				<div class="footermenu">
+					<ul>
+						<li><a href="{% url 'home' %}">Home</a></li>
+						<li><a href="contact.html">Contact</a></li>
+						<li><a href="terms.html">Terms and conditions</a></li>
+					</ul>
+				</div>
+			</footer>
+			
+		<!-- //copyright -->
+		<ul class="colorlib-bubbles">
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
+
+		<!-- Swiper JS -->
+		<script src="{% static 'ticket-please/js/swiper.min.js' %}"></script>
+
+		<!-- Initialize Swiper -->
+		<script>
+			$(document).ready(function(){
+
+
+				var swiper = new Swiper('.homeslider > .swiper-container', {
+					pagination: '.swiper-pagination',
+					paginationClickable: true,
+					preventClicks:false,
+					preventClicksPropagation:false,
+					effect:'fade',
+					breakpoints: {
+						320: {
+							height:200
+						},
+
+						480: {
+							height:300
+						},
+
+						768: {
+							height:400
+						},
+						1024: {
+							height:500
+						}
+					}
+				});
+
+				var recentswiper = new Swiper('.recentslider > .swiper-container', {
+					nextButton: '.recent-next',
+					prevButton: '.recent-prev',
+					slidesPerView: 8,
+					paginationClickable: true,
+					preventClicks:false,
+					preventClicksPropagation:false,
+					spaceBetween: 10,
+					breakpoints: {
+						320: {
+							slidesPerView: 3,
+							spaceBetween: 5
+						},
+
+						480: {
+							slidesPerView: 3,
+							spaceBetween: 5
+						},
+
+						768: {
+							slidesPerView: 5,
+							spaceBetween: 5
+						},
+						1024: {
+							slidesPerView: 6,
+							spaceBetween: 10
+						}
+					}
+				});
+
+				var mostswiper = new Swiper('.mostslider > .swiper-container', {
+					nextButton: '.most-next',
+					prevButton: '.most-prev',
+					slidesPerView: 8,
+					paginationClickable: true,
+					preventClicks:false,
+					preventClicksPropagation:false,
+					spaceBetween: 10,
+					breakpoints: {
+						320: {
+							slidesPerView: 3,
+							spaceBetween: 5
+						},
+
+						480: {
+							slidesPerView: 3,
+							spaceBetween: 5
+						},
+
+						768: {
+							slidesPerView: 5,
+							spaceBetween: 5
+						},
+						1024: {
+							slidesPerView: 6,
+							spaceBetween: 10
+						}
+					}
+				});
+
+				var topswiper = new Swiper('.topslider > .swiper-container', {
+					nextButton: '.top-next',
+					prevButton: '.top-prev',
+					slidesPerView: 8,
+					paginationClickable: true,
+					preventClicks:false,
+					preventClicksPropagation:false,
+					spaceBetween: 10,
+					breakpoints: {
+						320: {
+							slidesPerView: 3,
+							spaceBetween: 5
+						},
+
+						480: {
+							slidesPerView: 3,
+							spaceBetween: 5
+						},
+
+						768: {
+							slidesPerView: 5,
+							spaceBetween: 5
+						},
+						1024: {
+							slidesPerView: 6,
+							spaceBetween: 10
+						}
+					}
+				});
+
+			});
+
+			
+		</script>
+
+	</div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<h1> Welcome to the homepage </h1>
+
+{% if request.user.is_authenticated %}
+	<h4> Hello, {{request.user.first_name}}</h4>
+	<a href = "{% url 'accounts:logout' %}">Logout</a>
+{% else %}
+	<a href = "{% url 'accounts:register' %}">SignUp</a>
+	<a href = "{% url 'accounts:login' %}">Login</a>
+{% endif %}
+
+{% for movie in current_movies.all %}
+	<!-- <p>{{movie}}</p> -->
+	<p>{{movie.name}}</p>
+	<!-- <h4>{{movie.name}}</h4>
+	<h5>{{movie.description}}</h5>
+	<h6>{{movie.year}}</h6> -->
+{% endfor %}

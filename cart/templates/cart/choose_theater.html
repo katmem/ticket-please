@@ -1,0 +1,166 @@
+{% load static %}
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Select theater</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- Custom Theme files -->
+<link href="{% static 'accounts/css/register.css' %}" rel="stylesheet" type="text/css" media="all" />
+<!-- //Custom Theme files -->
+<!-- web font -->
+<link href="//fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i" rel="stylesheet">
+<!-- //web font -->
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<!-- bootstrap crispy forms -->
+</head>
+
+<style>
+	.asteriskField {
+    display: none;
+}
+table.center {
+    margin-left:auto; 
+    margin-right:auto;
+  }
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.topnav-right {
+  float: right;
+}
+
+
+.footer{float: left; width: 100%; margin: 30px 0 0 0; text-align: center;}
+.copyright{float: left;width: 100%; text-align: center; color:#fff; font-size: 14px; padding: 20px 0;}
+.footermenu{float: left; width: 100%; text-align: center;}
+.footermenu ul{float: left; width: 100%; text-align: center;}
+.footermenu ul li{display: inline; list-style: none; padding: 0 10px;}
+.footermenu ul li a{text-decoration: none; color:#fff;font-size: 14px;}
+
+</style>
+
+<body>
+	<div class="topnav">
+		<a class="active" href="{% url 'home' %}">Home</a>
+
+		<a href="{% url 'cart:choose-movie' %}">Book movie ticket</a>
+
+		<a href="{% url 'movies:program' %}">Movie Program</a>
+
+		<div class="topnav-right">
+	    	{% if request.user.is_authenticated %}
+				<a style="color:red">Hello, {{request.user.username}}</a>
+				<a href="{% url 'accounts:logout' %}">Logout</a>
+				<a href="{% url 'accounts:change-password' %}">Change Password</a>
+				<a href="{% url 'accounts:update-profile' %}">Update Profile</a>
+				<a href="{% url 'accounts:my-orders' %}">My Orders</a>
+			{% else %}
+				<a href = "{% url 'accounts:login' %}">Login</a>
+				<a href = "{% url 'accounts:register' %}">Register</a>
+			{% endif %}
+	  	</div>
+	
+	</div>
+	<!-- main -->
+	<div class="main-w3layouts wrapper">
+		{% if request.user.is_authenticated %}
+			{% if movie %}
+				<h1>Select theater</h1>
+				<div class="main-agileinfo">
+					<div class="agileits-top">
+						<form action="" method="post">
+							{% csrf_token %}
+
+							<form class="login-form">
+								{{form|crispy}}
+								<input type="submit">
+							</form>
+
+							<div class="wthree-text">
+								<div class="clear"> </div>
+							</div>
+							
+						</form>
+						{% if messages %}
+							<ul class="messages">
+								{% for message in messages %}
+								<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+								{% endfor %}
+							</ul>
+						{% endif %}
+					</div>
+				</div>
+			{% else %}
+				<h1>You have to choose a movie first</h1>
+				<h3 style="text-align: center;"><a href="{% url 'cart:choose-movie' %}" class="btn_1">Click here to choose movie</a></h3>	
+			{% endif %}
+		{% else %}
+			<h1>You have to be registered to book a ticket</h1>
+				<table class="center">
+					<tr>
+						<th><h3><a href="{% url 'accounts:login' %}"> Login </a></h3></th>
+						<th><h6>or</h6></th>
+						<th><h3><a href="{% url 'accounts:register' %}"> Register </a></h3></th>
+					</tr>
+				</table>
+		{% endif %}
+	
+		<!-- //copyright -->
+		<ul class="colorlib-bubbles">
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
+
+	<footer class="footer">
+		<div class="footermenu">
+			<ul>
+				<li><a href="{% url 'home' %}">Home</a></li>
+				<li><a href="contact.html">Contact</a></li>
+				<li><a href="terms.html">Terms and conditions</a></li>
+			</ul>
+		</div>
+	</footer>
+	<!-- //main -->
+</body>
+</html>
