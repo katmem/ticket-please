@@ -1,6 +1,17 @@
 # Ticket Please - A web application for booking movie tickets
-This application was developed with Django, MongoDB, HTML and CSS. It allows users to either search for a movie and find the theaters where the movie is currently playing or search for a theater of their choice and view the movies that are playing in that specific theater. After they choose their preferred movie and theater, they can choose a date at which they would like to book tickets for, and select seats. Then, they can complete their order by paying by card.
- 
+This application was developed with Django, MongoDB, HTML and CSS and is used for booking movie tickets.
+
+Users can:
+1. Sign up and login/logout
+2. Update first name, last name, email, and password in profile settings
+3. View the theatres’ program and the movies playing the current and next week
+4. View details for each movie such as trailer, description, genre, director, cast, year, IMDB rating, duration, and suggestions for related movies 
+5. Select a movie theatre and view the movies that are currently playing in that theater
+6. Select a movie and view the movie theatres that are currently playing that movie
+7. Book tickets for chosen date and select seats
+8. Pay by card
+9. View the history of all booked tickets
+
 ## Screenshots
 
 Homepage
